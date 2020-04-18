@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+    <header>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Armelo</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+               
+                         <!-- Custom fonts for this theme -->
+          <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+          <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+          <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+          <!-- Theme CSS -->
+          <link href="../css/freelancer.min.css" rel="stylesheet">
+    </header>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg bg-warning text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="../index.html">Crud php</a>
+                <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-warning text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-white" href="../cliente.php">Inicio</a>
+                    </li>
+                    <li class="mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-white" href="../usuario.php">Perfil</a>
+                    </li>
+                    <li class="mx-0 mx-lg-1">
+                      <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-white" href="../salir.php">Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </nav>
+        <header class="masthead bg-ligth text-dark text-center">
+            <div class="container d-flex align-items-center flex-column">
+
+                <h1 class="masthead-heading text-uppercase mb-0">CONSTRUYE TU SÁNDWICH</h1>
+        
+                <!-- Icon Divider -->
+                <div class="divider-custom divider-dark">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon">
+                        <i class="fas fa-angle-double-down fa-lg"></i>
+                    </div>
+                    <div class="divider-custom-line"></div>
+                </div>
+            
+
+                <div>
+                    <div id="panes">
+                        <div id="contenedor-pan">
+                            <div class="centerin">
+                                <h3><a class="retrocede"><img src="../img/play2.png"> </a>PAN
+                                <a class="avanza"><img src="../img/play.png"></a></h3>
+                            </div>
+                            <a class="contenido"></a>
+                            <div class="img"></div>$
+                            <a class="precio"></a> COP
+                        </div>
+                    </div>
+        
+                    <div id="sal">
+                        <!-- Icon Divider -->
+                        <div class="divider-custom divider-dark">
+                            <div class="divider-custom-line"></div>
+                            <div class="divider-custom-icon">
+                                <i class="fas fa-angle-double-down fa-lg"></i>
+                            </div>
+                            <div class="divider-custom-line"></div>
+                        </div>
+                        <div id="contenedor-salsa">
+                            <div class="centerin">
+                                <h3><a class="retrocede"><img src="../img/play2.png"></a>SALSA
+                                <a class="avanza"><img src="../img/play.png"></a></h3>
+                            </div>
+                            <a class="contenido"></a>
+                            <div class="img"></div>$
+                            <a class="precio"></a> COP
+                        </div>
+                    </div>
+                   
+                   <div id="ingre"><br>
+                        <!-- Icon Divider -->
+                        <div class="divider-custom divider-dark">
+                            <div class="divider-custom-line"></div>
+                            <div class="divider-custom-icon">
+                                <i class="fas fa-angle-double-down fa-lg"></i>
+                            </div>
+                            <div class="divider-custom-line"></div>
+                        </div>
+                        <div id="contenedor-ingrediente1">
+                            <div class="centerin">
+                                <h3><a class="retrocede"><img src="../img/play2.png"> </a>INGREDIENTE
+                                <a class="avanza"><img src="../img/play.png"></a></h3>
+                            </div>
+                                <a class="contenido"></a>
+                            <div class="img"></div>$
+                            <a class="precio"></a> COP
+                        </div>
+                   </div>
+                    
+                    
+
+                     <!-- Icon Divider -->
+                    <div class="divider-custom divider-dark">
+                        <div class="divider-custom-line"></div>
+                        <div class="divider-custom-icon">
+                            <i class="fas fa-angle-double-down fa-lg"></i>
+                        </div>
+                        <div class="divider-custom-line"></div>
+                    </div>
+                    <h3>VALOR TOTAL DE TU PRODUCTO</h3>
+                    <h4 id="precio">$ </h4>
+                </div>
+                <input class="btn btn-warning" type="button" id="pedido" value="Pedir" onclick="pedido()">
+                <div id="altoing"></div>
+            </div>  
+        </header>
+
+        <script>
+            var preciop=0;
+            var precios=0;
+            var precioi=0;
+            var preciof=0;
+            var idpan;
+            var idsalsa;
+            var iding;
+            //Peticion ajax a seleccion (mejor que usar el php en el mismo archivo)
+            $.ajax({
+            type: "POST",
+            url: "panes.php",
+            datatype: "html",
+            success: function(datos) {
+                //Si la peticion sale bien devuelve una funcion cuyos parametros son llamados 'datos', es lo que retorna el php
+                    if (datos) {console.log(datos);
+                        try {
+                            var datos = JSON.parse(datos);
+                            //Esta funcion va a agregar los eventos para cambiar con las flechas, para agregar nuevos eventos
+                            //La llama de nuevo pero enviandole el div que contiene el tipo de alimento
+                            //(pan, salsa, adicional, etc)
+                            //Usar el signo $ es como usar el document.getElementById pero con jquery lo que lo hace mas corto
+                            agregarEventosFlechas(datos, $('#contenedor-pan'),1);
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                    else {
+                        alert('Hubo un problema al traer los ingredientes')
+                    }
+                }
+            });
+
+            $.ajax({
+            type: "POST",
+            url: "salsas.php",
+            datatype: "html",
+            success: function(datos) {
+                //Si la peticion sale bien devuelve una funcion cuyos parametros son llamados 'datos', es lo que retorna el php
+                    if (datos) {console.log(datos);
+                        try {
+                            var datos = JSON.parse(datos);
+                            //Esta funcion va a agregar los eventos para cambiar con las flechas, para agregar nuevos eventos
+                            //La llama de nuevo pero enviandole el div que contiene el tipo de alimento
+                            //(pan, salsa, adicional, etc)
+                            //Usar el signo $ es como usar el document.getElementById pero con jquery lo que lo hace mas corto
+                            agregarEventosFlechas(datos, $('#contenedor-salsa'),2);
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                    else {
+                        alert('Hubo un problema al traer los ingredientes')
+                    }
+                }
+            });
+
+            $.ajax({
+            type: "POST",
+            url: "ingredientes.php",
+            datatype: "html",
+            success: function(datos) {
+                //Si la peticion sale bien devuelve una funcion cuyos parametros son llamados 'datos', es lo que retorna el php
+                    if (datos) {console.log(datos);
+                       
+                        try {
+                            var datos = JSON.parse(datos);
+                            //Esta funcion va a agregar los eventos para cambiar con las flechas, para agregar nuevos eventos
+                            //La llama de nuevo pero enviandole el div que contiene el tipo de alimento
+                            //(pan, salsa, adicional, etc)
+                            //Usar el signo $ es como usar el document.getElementById pero con jquery lo que lo hace mas corto
+                            
+                                agregarEventosFlechas(datos, $('#contenedor-ingrediente1'),3);
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                    else {
+                        alert('Hubo un problema al traer los ingredientes')
+                    }
+                }
+            });
+
+           
+
+            function agregarEventosFlechas (panes, elementoHTML, id) {
+                console.log(panes);
+                var indice = -1;
+                //Por defecto se carga la primera vez
+                elementoHTML.find('.contenido').html("Seleccione")
+                elementoHTML.find('.precio').html("-")
+                elementoHTML.find('.img').html('<img src="../imagenes/select.png" height="150px">')
+                
+                var cantidadPanes = panes.length;
+                //Evento para retroceder
+                elementoHTML.find('.retrocede').on('click', function () {
+                    //retrocede el indice en 1 unidad
+                    indice--;
+                    //si es menor que 0 signfica que vuelve al otro extremo del array, osea a la ultima posicion
+                    if (indice < 0) {
+                        indice = cantidadPanes-1;
+                    }
+                    //Cambia el contenido del elemento <a> al nombre del ingrediente
+                    elementoHTML.find('.contenido').html(panes[indice].nombre)
+                    elementoHTML.find('.precio').html(panes[indice].precio)
+                    elementoHTML.find('.img').html('<img src="../imagenes/'+panes[indice].img+'"height="150px">')
+                    if(id==1){
+                        preciop=parseInt(panes[indice].precio);
+                        idpan=panes[indice].id;
+                        sumarprecio();
+                    }
+                    if(id==2){
+                        precios=parseInt(panes[indice].precio);
+                        idsalsa=panes[indice].id;
+                        sumarprecio();
+                    }
+                    if(id==3){
+                        precioi=parseInt(panes[indice].precio);
+                        iding=panes[indice].id;
+                        sumarprecio();
+                    }
+                });
+                //Evento para avanzar
+                elementoHTML.find('.avanza').on('click', function () {
+                    //aumenta el indice en 1 unidad
+                    indice++;
+                    //si es mayor que el largo del array signfica que vuelve al otro extremo, osea a la primera posicion
+                    if (indice >= cantidadPanes) {
+                        indice = 0;
+                    }
+                    //Cambia el contenido del elemento <a> al nombre del ingrediente
+                    elementoHTML.find('.contenido').html(panes[indice].nombre)
+                    elementoHTML.find('.precio').html(panes[indice].precio)
+                    elementoHTML.find('.img').html('<img src="../imagenes/'+panes[indice].img+'"height="150px">')
+                    if(id==1){
+                        preciop=parseInt(panes[indice].precio);
+                        idpan=panes[indice].id;
+                        sumarprecio();
+                    }
+                    if(id==2){
+                        precios=parseInt(panes[indice].precio);
+                        idsalsa=panes[indice].id;
+                        sumarprecio();
+                    }
+                    if(id==3){
+                        precioi=parseInt(panes[indice].precio);
+                        iding=panes[indice].id;
+                        sumarprecio();
+                    }
+                });
+            }
+
+            function sumarprecio(){
+                preciof=preciop+precios+precioi;
+                console.log(preciof);
+                document.getElementById("precio").innerHTML="$"+preciof;
+            }
+
+            function pedido(){
+                if(preciop==0||precios==0||precioi==0){
+                    document.getElementById("altoing").innerHTML = "<a>Seleccione ingredientes</a>";
+                }else{
+                    window.location= "recibe.php?pan="+idpan+"&salsa="+idsalsa+"&ing="+iding+"&preciof="+preciof;
+                }
+            }
+         </script>
+
+         <!-- Footer -->
+
+        <!-- Copyright Section -->
+        <section class="copyright py-4 text-center text-white">
+            <div class="container">
+            <small>Copyright &copy; Ampersand 2020</small>
+            </div>
+        </section>
+                 <!-- Bootstrap core JavaScript -->
+          <script src="../vendor/jquery/jquery.min.js"></script>
+          <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+          <!-- Plugin JavaScript -->
+          <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+          <!-- Contact Form JavaScript -->
+          <script src="../js/jqBootstrapValidation.js"></script>
+          <script src="../js/contact_me.js"></script>
+
+          <!-- Custom scripts for this template -->
+          <script src="../js/freelancer.min.js"></script>
+    </body>
+</html>
